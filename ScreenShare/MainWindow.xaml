@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <StackPanel>
-        <Button x:Name="btnServer" Content="Start Server" Click="btnServer_Click" />
+        <Button x:Name="btnServer" Content="Start Server" Click="Button_Click" />
         <Button x:Name="btnClient" Content="Start Client" Click="btnClient_Click" />
     </StackPanel>
 </Window>

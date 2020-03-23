@@ -14,22 +14,22 @@ namespace ScreenShare
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Server _server;
+        private LocalServer _server;
         private const string StorageFolder = "storage";
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            var server = new SocketIoServer("https://backend.chawilka.com");
+            await server.Start();
         }
-
 
         private void btnServer_Click(object sender, RoutedEventArgs e)
         {
-            _server = new Server(StorageFolder);
+            _server = new LocalServer(StorageFolder);
             _server.Start();
             btnServer.IsEnabled = false;
         }

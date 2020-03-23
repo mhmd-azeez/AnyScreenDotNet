@@ -3,30 +3,33 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
 namespace ScreenShare
 {
-    public class Server
+    public class LocalServer
     {
         private readonly string _path;
         private readonly System.Timers.Timer _timer;
 
-        public Server(string path)
+        public LocalServer(string path)
         {
             _path = path;
             _timer = new System.Timers.Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
         }
 
-        public void Start()
+        public Task Start()
         {
             if (Directory.Exists(_path) == false)
             {
                 Directory.CreateDirectory(_path);
             }
             _timer.Start();
+
+            return Task.CompletedTask;
         }
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)

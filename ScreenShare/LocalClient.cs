@@ -8,11 +8,11 @@ using System.Windows.Media.Imaging;
 
 namespace ScreenShare
 {
-    public class Client
+    public class LocalClient
     {
         private readonly string _path;
 
-        public Client(string path)
+        public LocalClient(string path)
         {
             _path = path;
         }

@@ -8,12 +8,12 @@ namespace ScreenShare
     /// </summary>
     public partial class ClientWindow : Window
     {
-        private Client _client;
+        private LocalClient _client;
 
         public ClientWindow(string path)
         {
             InitializeComponent();
-            _client = new Client(path);
+            _client = new LocalClient(path);
             _client.ImageReceived += _client_ImageReceived;
             _client.Start();
         }
