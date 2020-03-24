@@ -85,7 +85,9 @@
     <Compile Include="IServer.cs" />
     <Compile Include="LocalClient.cs" />
     <Compile Include="LocalServer.cs" />
+    <Compile Include="ScreenShareService.cs" />
     <Compile Include="SocketIoServer.cs" />
+    <Compile Include="StreamExtensions.cs" />
     <Page Include="ClientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
