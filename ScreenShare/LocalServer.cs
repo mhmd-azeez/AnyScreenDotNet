@@ -55,6 +55,14 @@ namespace ScreenShare
         }
     }
 
+    public enum StretchBltMode : int
+    {
+        STRETCH_ANDSCANS = 1,
+        STRETCH_ORSCANS = 2,
+        STRETCH_DELETESCANS = 3,
+        STRETCH_HALFTONE = 4,
+    }
+
     internal class NativeMethods
     {
         [DllImport("user32.dll")]
@@ -67,5 +75,16 @@ namespace ScreenShare
         public static extern UInt64 BitBlt(IntPtr hDestDC, int x, int y,
            int nWidth, int nHeight, IntPtr hSrcDC,
            int xSrc, int ySrc, int dwRop);
+
+        [DllImport("gdi32.dll")]
+        public static extern UInt64 StretchBlt(IntPtr hDestDC, int xDest, int yDest,
+   int wDest, int hDest, IntPtr hSrcDC,
+   int xSrc, int ySrc, int wSrc, int hSrc, int dwRop);
+
+        [DllImport("gdi32.dll")]
+        public static extern int SetStretchBltMode(
+  IntPtr hdc,
+  StretchBltMode mode
+);
     }
 }

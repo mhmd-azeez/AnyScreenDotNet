@@ -1,11 +1,6 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Forms;
-using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 
 namespace ScreenShare
 {
@@ -14,7 +9,7 @@ namespace ScreenShare
     /// </summary>
     public partial class MainWindow : Window
     {
-        private LocalServer _server;
+        private IServer _server;
         private const string StorageFolder = "storage";
         public MainWindow()
         {
@@ -23,15 +18,44 @@ namespace ScreenShare
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            var server = new SocketIoServer("https://backend.chawilka.com");
-            await server.Start();
+            btnServer.IsEnabled = false;
+            _server = new SocketIoServer("https://backend.chawilka.com");
+            _server.ConnectedToServer += _server_ConnectedToServer;
+            _server.ScreenShareRequested += _server_ScreenShareRequested;
+            await _server.Start();
         }
 
-        private void btnServer_Click(object sender, RoutedEventArgs e)
+        private void _server_ScreenShareRequested(object sender, ScreenShareRequestedEventArgs e)
         {
-            _server = new LocalServer(StorageFolder);
-            _server.Start();
-            btnServer.IsEnabled = false;
+            Dispatcher.Invoke(async () =>
+            {
+                var result = MessageBox.Show
+                (
+                    Application.Current.MainWindow,
+                    $"Screen share requested by: '{e.RequestorId}'. Do you Accept it?",
+                    "Share screen",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question
+                );
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    await _server.AcceptScreenShare(e.RequestorId);
+                }
+            });
+        }
+
+        private void Log(string text)
+        {
+            logTextBox.Text += text + Environment.NewLine;
+        }
+
+        private void _server_ConnectedToServer(object sender, ConnectedToServerEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                Log($"Connected to server. My Id: {e.MyClientId}");
+            });
         }
 
         private void btnClient_Click(object sender, RoutedEventArgs e)

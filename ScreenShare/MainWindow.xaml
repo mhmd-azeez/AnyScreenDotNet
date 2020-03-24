@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <StackPanel>
-        <Button x:Name="btnServer" Content="Start Server" Click="Button_Click" />
-        <Button x:Name="btnClient" Content="Start Client" Click="btnClient_Click" />
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        
+        <StackPanel>
+            <Button x:Name="btnServer" Content="Start Server" Click="Button_Click" />
+        </StackPanel>
+
+        <TextBox x:Name="logTextBox" IsReadOnly="True" AcceptsReturn="True" Grid.Row="1" />
+
+    </Grid>
 </Window>
